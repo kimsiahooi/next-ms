@@ -86,7 +86,8 @@ export default function SignUpPage() {
                     Sign up with GitHub
                   </Button>
                   <FieldDescription className="px-6 text-center">
-                    Already have an account? <Link href="#">Sign in</Link>
+                    Already have an account?{" "}
+                    <Link href="/sign-in">Sign in</Link>
                   </FieldDescription>
                 </Field>
               </FieldGroup>
