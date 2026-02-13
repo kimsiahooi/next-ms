@@ -28,7 +28,11 @@ model User {
   sessions      Session[]
   accounts      Account[]
 
+  members     Member[]
+  invitations Invitation[]
+
   @@unique([email])
+  @@map("user")
 }
 
 model Session {
@@ -43,8 +47,11 @@ model Session {
   user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   impersonatedBy String?  @db.Text
 
+  activeOrganizationId String? @db.Text
+
   @@unique([token])
   @@index([userId(length: 191)])
+  @@map("session")
 }
 
 model Account {
@@ -64,6 +71,7 @@ model Account {
   updatedAt             DateTime  @updatedAt
 
   @@index([userId(length: 191)])
+  @@map("account")
 }
 
 model Verification {
@@ -75,4 +83,50 @@ model Verification {
   updatedAt  DateTime @updatedAt
 
   @@index([identifier(length: 191)])
+  @@map("verification")
+}
+
+model Organization {
+  id          String       @id
+  name        String       @db.Text
+  slug        String
+  logo        String?      @db.Text
+  createdAt   DateTime
+  metadata    String?      @db.Text
+  members     Member[]
+  invitations Invitation[]
+
+  @@unique([slug])
+  @@map("organization")
+}
+
+model Member {
+  id             String       @id
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role           String       @db.Text
+  createdAt      DateTime
+
+  @@index([organizationId(length: 191)])
+  @@index([userId(length: 191)])
+  @@map("member")
+}
+
+model Invitation {
+  id             String       @id
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  email          String       @db.Text
+  role           String?      @db.Text
+  status         String       @db.Text
+  expiresAt      DateTime
+  createdAt      DateTime     @default(now())
+  inviterId      String
+  user           User         @relation(fields: [inviterId], references: [id], onDelete: Cascade)
+
+  @@index([organizationId(length: 191)])
+  @@index([email(length: 191)])
+  @@map("invitation")
 }

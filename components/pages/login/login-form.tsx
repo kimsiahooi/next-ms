@@ -4,7 +4,7 @@ import Form from "next/form";
 import Link from "next/link";
 import { useEffect } from "react";
 import { toast } from "sonner";
-import { signInAction } from "@/app/actions/auth.actions";
+import { loginAction } from "@/app/actions/auth.actions";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -17,11 +17,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { useActionState } from "@/hooks/useActionState";
-import type { signInSchema } from "@/schemas/auth.schemas";
+import type { loginSchema } from "@/schemas/auth.schemas";
 
-export default function SignInForm() {
-  const [formState, formAction, pending] = useActionState<typeof signInSchema>(
-    signInAction,
+export default function LoginForm() {
+  const [formState, formAction, pending] = useActionState<typeof loginSchema>(
+    loginAction,
     {
       values: {
         email: "",

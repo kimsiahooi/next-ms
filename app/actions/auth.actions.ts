@@ -4,11 +4,11 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { auth } from "@/lib/auth";
-import { signInSchema } from "@/schemas/auth.schemas";
+import { loginSchema } from "@/schemas/auth.schemas";
 import type { FormState } from "@/schemas/form.schemas";
 
-export async function signInAction(
-  _: FormState<typeof signInSchema>,
+export async function loginAction(
+  _: FormState<typeof loginSchema>,
   formData: FormData,
 ) {
   const values = {
@@ -17,7 +17,7 @@ export async function signInAction(
   };
 
   try {
-    const { email, password } = signInSchema.parse(values);
+    const { email, password } = loginSchema.parse(values);
 
     await auth.api.signInEmail({
       body: { email, password },
@@ -54,5 +54,5 @@ export async function signOutAction(_: FormState) {
     };
   }
 
-  redirect("/sign-in");
+  redirect("/login");
 }
