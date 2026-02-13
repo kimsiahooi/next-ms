@@ -4,9 +4,9 @@ import { prisma } from "@/lib/prisma";
 async function main() {
   await auth.api.createUser({
     body: {
-      email: "admin@gmail.com", // required
-      password: "password", // required
-      name: "admin", // required
+      email: "admin@gmail.com",
+      password: "password",
+      name: "admin",
       role: "admin",
     },
   });

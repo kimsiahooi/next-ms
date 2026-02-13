@@ -1,30 +1,43 @@
 "use client";
 
+import Form from "next/form";
 import Link from "next/link";
-import { useActionState, useEffect } from "react";
+import { useEffect } from "react";
 import { toast } from "sonner";
 import { signInAction } from "@/app/actions/auth.actions";
 import { Button } from "@/components/ui/button";
 import {
   Field,
   FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
   FieldSeparator,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/ui/spinner";
+import { useActionState } from "@/hooks/useActionState";
+import type { signInSchema } from "@/schemas/auth.schemas";
 
 export default function SignInForm() {
-  const [state, formAction] = useActionState(signInAction, {});
+  const [formState, formAction, pending] = useActionState<typeof signInSchema>(
+    signInAction,
+    {
+      values: {
+        email: "",
+        password: "",
+      },
+    },
+  );
 
   useEffect(() => {
-    if (state.message && !state.errors) {
-      toast.error(state.message);
+    if (formState.message) {
+      toast.error(formState.message);
     }
-  }, [state]);
+  }, [formState]);
 
   return (
-    <form action={formAction} className="flex flex-col gap-6">
+    <Form action={formAction} className="flex flex-col gap-6">
       <FieldGroup>
         <div className="flex flex-col items-center gap-1 text-center">
           <h1 className="text-2xl font-bold">Login to your account</h1>
@@ -32,28 +45,40 @@ export default function SignInForm() {
             Enter your email below to login to your account
           </p>
         </div>
-        <Field>
+        <Field data-invalid={!!formState.errors?.email?.length}>
           <FieldLabel htmlFor="email">Email</FieldLabel>
           <Input
             id="email"
             name="email"
+            defaultValue={formState.values?.email}
+            aria-invalid={!!formState.errors?.email?.length}
             type="email"
             placeholder="m@example.com"
           />
+          {formState.errors?.email && (
+            <FieldError>{formState.errors.email[0]}</FieldError>
+          )}
         </Field>
-        <Field>
+        <Field data-invalid={!!formState.errors?.password?.length}>
           <div className="flex items-center">
             <FieldLabel htmlFor="password">Password</FieldLabel>
-            <Link
-              href="#"
-              className="ml-auto text-sm underline-offset-4 hover:underline">
-              Forgot your password?
-            </Link>
           </div>
-          <Input id="password" name="password" type="password" />
+          <Input
+            id="password"
+            name="password"
+            defaultValue={formState.values?.password}
+            aria-invalid={!!formState.errors?.password?.length}
+            type="password"
+          />
+          {formState.errors?.password && (
+            <FieldError>{formState.errors.password[0]}</FieldError>
+          )}
         </Field>
         <Field>
-          <Button type="submit">Login</Button>
+          <Button type="submit" disabled={pending}>
+            {pending && <Spinner />}
+            Login
+          </Button>
         </Field>
         <FieldSeparator>Or continue with</FieldSeparator>
         <Field>
@@ -75,6 +100,6 @@ export default function SignInForm() {
           </FieldDescription>
         </Field>
       </FieldGroup>
-    </form>
+    </Form>
   );
 }
