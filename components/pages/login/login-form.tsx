@@ -4,7 +4,7 @@ import Form from "next/form";
 import Link from "next/link";
 import { useEffect } from "react";
 import { toast } from "sonner";
-import { loginAction } from "@/app/actions/auth.actions";
+import { loginAction } from "@/actions/admin-auth.actions";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
+import { ADMIN_SIGNUP } from "@/constants/admin/path";
 import { useActionState } from "@/hooks/useActionState";
 import type { loginSchema } from "@/schemas/auth.schemas";
 
@@ -94,7 +95,7 @@ export default function LoginForm() {
           </Button>
           <FieldDescription className="text-center">
             Don&apos;t have an account?{" "}
-            <Link href="/sign-up" className="underline underline-offset-4">
+            <Link href={ADMIN_SIGNUP} className="underline underline-offset-4">
               Sign up
             </Link>
           </FieldDescription>

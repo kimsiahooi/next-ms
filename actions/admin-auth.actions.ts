@@ -3,6 +3,7 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { ADMIN_DASHBOARD, ADMIN_LOGIN } from "@/constants/admin/path";
 import { auth } from "@/lib/auth";
 import { loginSchema } from "@/schemas/auth.schemas";
 import type { FormState } from "@/schemas/form.schemas";
@@ -38,10 +39,10 @@ export async function loginAction(
     };
   }
 
-  redirect("/dashboard");
+  redirect(ADMIN_DASHBOARD);
 }
 
-export async function signOutAction(_: FormState) {
+export async function logoutAction(_: FormState) {
   try {
     await auth.api.signOut({
       headers: await headers(),
@@ -54,5 +55,5 @@ export async function signOutAction(_: FormState) {
     };
   }
 
-  redirect("/login");
+  redirect(ADMIN_LOGIN);
 }

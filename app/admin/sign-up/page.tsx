@@ -9,6 +9,7 @@ import {
   FieldSeparator,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { ADMIN_LOGIN } from "@/constants/admin/path";
 
 export default function SignUpPage() {
   return (
@@ -76,7 +77,8 @@ export default function SignUpPage() {
                     Sign up with GitHub
                   </Button>
                   <FieldDescription className="px-6 text-center">
-                    Already have an account? <Link href="/login">Sign in</Link>
+                    Already have an account?{" "}
+                    <Link href={ADMIN_LOGIN}>Sign in</Link>
                   </FieldDescription>
                 </Field>
               </FieldGroup>

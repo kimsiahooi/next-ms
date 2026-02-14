@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { useEffect } from "react";
 import { toast } from "sonner";
-import { signOutAction } from "@/app/actions/auth.actions";
+import { logoutAction } from "@/actions/admin-auth.actions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -40,7 +40,7 @@ export function NavUser({
 }) {
   const { isMobile } = useSidebar();
 
-  const [formState, formAction, pending] = useActionState(signOutAction, {});
+  const [formState, formAction, pending] = useActionState(logoutAction, {});
 
   useEffect(() => {
     if (formState.message) {
