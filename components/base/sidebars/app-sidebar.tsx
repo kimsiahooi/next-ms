@@ -1,19 +1,15 @@
 "use client";
 
 import {
-  AudioWaveform,
   BookOpen,
   Bot,
-  Command,
   Frame,
-  GalleryVerticalEnd,
   Map as MapIcon,
   PieChart,
   Settings2,
   SquareTerminal,
 } from "lucide-react";
-import type * as React from "react";
-
+import { useEffect } from "react";
 import { NavMain } from "@/components/base/sidebars/nav-main";
 import { NavProjects } from "@/components/base/sidebars/nav-projects";
 import { NavUser } from "@/components/base/sidebars/nav-user";
@@ -25,29 +21,12 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { useSession } from "@/lib/auth-client";
 
-// This is sample data.
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   teams: [
     {
       name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
     },
   ],
   navMain: [
@@ -157,6 +136,12 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { data: session, refetch } = useSession();
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -167,7 +152,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser session={session} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { ADMIN_LOGIN } from "@/constants/admin/path";
 
-export default function SignUpPage() {
+export default function AdminSignUpPage() {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">

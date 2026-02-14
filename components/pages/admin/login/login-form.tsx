@@ -17,10 +17,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { ADMIN_SIGNUP } from "@/constants/admin/path";
-import { useActionState } from "@/hooks/useActionState";
+import { useActionState } from "@/hooks/use-action-state";
 import type { loginSchema } from "@/schemas/auth.schemas";
 
-export default function LoginForm() {
+export default function AdminLoginForm() {
   const [formState, formAction, pending] = useActionState<typeof loginSchema>(
     loginAction,
     {
