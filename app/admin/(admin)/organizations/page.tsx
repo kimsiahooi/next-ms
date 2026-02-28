@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import AdminLayout from "@/components/layouts/admin-layout";
 import CreateOrganizationForm from "@/components/pages/admin/organizations/create-organization-form";
+import DeleteOrganizationForm from "@/components/pages/admin/organizations/delete-organization-form";
 import {
   Table,
   TableBody,
@@ -31,6 +32,7 @@ export default async function AdminOrganizationPage() {
               <TableHead>Name</TableHead>
               <TableHead>Slug</TableHead>
               <TableHead>Created At</TableHead>
+              <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -40,6 +42,9 @@ export default async function AdminOrganizationPage() {
                 <TableCell>{organization.slug}</TableCell>
                 <TableCell>
                   {new Date(organization.createdAt).toLocaleString()}
+                </TableCell>
+                <TableCell>
+                  <DeleteOrganizationForm organization={organization} />
                 </TableCell>
               </TableRow>
             ))}

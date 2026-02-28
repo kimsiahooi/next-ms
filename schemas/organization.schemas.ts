@@ -15,9 +15,7 @@ export const createOrganizationSchema = z.object({
       async (slug) => {
         try {
           const { status } = await auth.api.checkOrganizationSlug({
-            body: {
-              slug,
-            },
+            body: { slug },
           });
 
           return status;
@@ -27,4 +25,10 @@ export const createOrganizationSchema = z.object({
       },
       { error: "Slug has been taken" },
     ),
+});
+
+export const deleteOrganizationSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  slug: z.string(),
 });

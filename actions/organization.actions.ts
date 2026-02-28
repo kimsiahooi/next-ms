@@ -6,7 +6,10 @@ import { z } from "zod";
 import { ADMIN_ORGANIZATIONS_PATH } from "@/constants/admin/path.constants";
 import { auth } from "@/lib/auth";
 import type { FormState } from "@/schemas/form.schemas";
-import { createOrganizationSchema } from "@/schemas/organization.schemas";
+import {
+  createOrganizationSchema,
+  deleteOrganizationSchema,
+} from "@/schemas/organization.schemas";
 
 export async function createOrganizationAction(
   _: FormState<typeof createOrganizationSchema>,
@@ -47,7 +50,51 @@ export async function createOrganizationAction(
     return {
       values,
       success: false,
-      message: "Failed to create organization",
+      message: "Failed create organization",
+    };
+  }
+}
+
+export async function deleteOrganizationAction(
+  _: FormState<typeof deleteOrganizationSchema>,
+  formData: FormData,
+) {
+  const values = {
+    id: formData.get("id") as string,
+    name: formData.get("name") as string,
+    slug: formData.get("slug") as string,
+  };
+
+  try {
+    const organization = await deleteOrganizationSchema.parseAsync(values);
+
+    if (!organization) {
+      throw new Error("Organization not found");
+    }
+
+    await auth.api.deleteOrganization({
+      body: {
+        organizationId: organization.id,
+      },
+      headers: await headers(),
+    });
+
+    revalidatePath(ADMIN_ORGANIZATIONS_PATH);
+
+    return {
+      values: {
+        id: "",
+        name: "",
+        slug: "",
+      },
+      success: true,
+      message: "Organization deleted successfully",
+    };
+  } catch {
+    return {
+      values,
+      success: false,
+      message: "Failed delete organization",
     };
   }
 }
