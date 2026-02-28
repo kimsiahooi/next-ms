@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
-import { ADMIN_SIGNUP } from "@/constants/admin/path";
+import { ADMIN_SIGNUP_PATH } from "@/constants/admin/path.constants";
 import { useActionState } from "@/hooks/use-action-state";
 import type { loginSchema } from "@/schemas/auth.schemas";
 
@@ -95,7 +95,9 @@ export default function AdminLoginForm() {
           </Button>
           <FieldDescription className="text-center">
             Don&apos;t have an account?{" "}
-            <Link href={ADMIN_SIGNUP} className="underline underline-offset-4">
+            <Link
+              href={ADMIN_SIGNUP_PATH}
+              className="underline underline-offset-4">
               Sign up
             </Link>
           </FieldDescription>

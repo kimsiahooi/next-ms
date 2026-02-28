@@ -87,7 +87,7 @@ model Verification {
 }
 
 model Organization {
-  id          String       @id
+  id          String       @id @default(uuid())
   name        String       @db.Text
   slug        String
   logo        String?      @db.Text
@@ -101,7 +101,7 @@ model Organization {
 }
 
 model Member {
-  id             String       @id
+  id             String       @id @default(uuid())
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   userId         String
@@ -115,7 +115,7 @@ model Member {
 }
 
 model Invitation {
-  id             String       @id
+  id             String       @id @default(uuid())
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   email          String       @db.Text

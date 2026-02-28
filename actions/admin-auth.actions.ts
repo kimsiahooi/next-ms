@@ -3,7 +3,10 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { ADMIN_DASHBOARD, ADMIN_LOGIN } from "@/constants/admin/path";
+import {
+  ADMIN_DASHBOARD_PATH,
+  ADMIN_LOGIN_PATH,
+} from "@/constants/admin/path.constants";
 import { auth } from "@/lib/auth";
 import { loginSchema } from "@/schemas/auth.schemas";
 import type { FormState } from "@/schemas/form.schemas";
@@ -34,12 +37,11 @@ export async function loginAction(
     return {
       values,
       success: false,
-      errors: null,
       message: "Failed to sign in",
     };
   }
 
-  redirect(ADMIN_DASHBOARD);
+  redirect(ADMIN_DASHBOARD_PATH);
 }
 
 export async function logoutAction(_: FormState) {
@@ -50,10 +52,9 @@ export async function logoutAction(_: FormState) {
   } catch {
     return {
       success: false,
-      errors: null,
       message: "Failed to sign out",
     };
   }
 
-  redirect(ADMIN_LOGIN);
+  redirect(ADMIN_LOGIN_PATH);
 }

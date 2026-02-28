@@ -1,142 +1,48 @@
 "use client";
 
-import {
-  BookOpen,
-  Bot,
-  Frame,
-  Map as MapIcon,
-  PieChart,
-  Settings2,
-  SquareTerminal,
-} from "lucide-react";
+import { Building2, GalleryVerticalEnd, Gauge } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { NavMain } from "@/components/base/sidebars/nav-main";
-import { NavProjects } from "@/components/base/sidebars/nav-projects";
 import { NavUser } from "@/components/base/sidebars/nav-user";
-import { TeamSwitcher } from "@/components/base/sidebars/team-switcher";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { APP_NAME } from "@/constants";
+import {
+  ADMIN_DASHBOARD_PATH,
+  ADMIN_ORGANIZATIONS_PATH,
+} from "@/constants/admin/path.constants";
 import { useSession } from "@/lib/auth-client";
-
-const data = {
-  teams: [
-    {
-      name: "Acme Inc",
-    },
-  ],
-  navMain: [
-    {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: MapIcon,
-    },
-  ],
-};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: session, refetch } = useSession();
+  const pathname = usePathname();
+
+  const data = {
+    navMain: [
+      {
+        title: "Dashboard",
+        url: ADMIN_DASHBOARD_PATH,
+        icon: Gauge,
+        isActive: pathname === ADMIN_DASHBOARD_PATH,
+      },
+      {
+        title: "Organizations",
+        url: ADMIN_ORGANIZATIONS_PATH,
+        icon: Building2,
+        isActive: pathname === ADMIN_ORGANIZATIONS_PATH,
+      },
+    ],
+  };
 
   useEffect(() => {
     refetch();
@@ -145,11 +51,24 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton size="lg" asChild>
+              <Link href="/admin/dashboard">
+                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                  <GalleryVerticalEnd className="size-4" />
+                </div>
+                <div className="flex flex-col gap-0.5 leading-none">
+                  <span className="font-medium">{APP_NAME}</span>
+                  <span className="">v1.0.0</span>
+                </div>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser session={session} />

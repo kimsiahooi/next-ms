@@ -1,16 +1,24 @@
+import Link from "next/link";
 import type { ReactNode } from "react";
+import React from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import type { Breadcrumb as BreadcrumbProps } from "@/types/breadcrumb.types";
 
-export default function AdminLayout({ children }: { children: ReactNode }) {
+export default function AdminLayout({
+  breadcrumbs,
+  children,
+}: {
+  breadcrumbs: BreadcrumbProps[];
+  children: ReactNode;
+}) {
   return (
     <>
       <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
@@ -22,13 +30,16 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           />
           <Breadcrumb>
             <BreadcrumbList>
-              <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="#">Build Your Application</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator className="hidden md:block" />
-              <BreadcrumbItem>
-                <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-              </BreadcrumbItem>
+              {breadcrumbs.map((breadcrumb, index) => (
+                <React.Fragment key={breadcrumb.name}>
+                  {index ? <BreadcrumbSeparator /> : null}
+                  <BreadcrumbItem>
+                    <BreadcrumbLink className="cursor-pointer" asChild>
+                      <Link href={breadcrumb.url}>{breadcrumb.name}</Link>
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                </React.Fragment>
+              ))}
             </BreadcrumbList>
           </Breadcrumb>
         </div>

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import AdminLoginForm from "@/components/pages/admin/login/login-form";
 import { APP_NAME } from "@/constants";
-import { ADMIN_DASHBOARD } from "@/constants/admin/path";
+import { ADMIN_DASHBOARD_PATH } from "@/constants/admin/path.constants";
 import { auth } from "@/lib/auth";
 
 export default async function AdminLoginPage() {
@@ -13,7 +13,7 @@ export default async function AdminLoginPage() {
   });
 
   if (session) {
-    return redirect(ADMIN_DASHBOARD);
+    return redirect(ADMIN_DASHBOARD_PATH);
   }
 
   return (

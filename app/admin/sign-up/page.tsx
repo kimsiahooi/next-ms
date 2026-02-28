@@ -9,7 +9,7 @@ import {
   FieldSeparator,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { ADMIN_LOGIN } from "@/constants/admin/path";
+import { ADMIN_LOGIN_PATH } from "@/constants/admin/path.constants";
 
 export default function AdminSignUpPage() {
   return (
@@ -78,7 +78,7 @@ export default function AdminSignUpPage() {
                   </Button>
                   <FieldDescription className="px-6 text-center">
                     Already have an account?{" "}
-                    <Link href={ADMIN_LOGIN}>Sign in</Link>
+                    <Link href={ADMIN_LOGIN_PATH}>Sign in</Link>
                   </FieldDescription>
                 </Field>
               </FieldGroup>

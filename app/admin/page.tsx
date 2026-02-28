@@ -1,6 +1,9 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { ADMIN_DASHBOARD, ADMIN_LOGIN } from "@/constants/admin/path";
+import {
+  ADMIN_DASHBOARD_PATH,
+  ADMIN_LOGIN_PATH,
+} from "@/constants/admin/path.constants";
 import { auth } from "@/lib/auth";
 
 export default async function AdminPage() {
@@ -9,8 +12,8 @@ export default async function AdminPage() {
   });
 
   if (!session) {
-    return redirect(ADMIN_LOGIN);
+    return redirect(ADMIN_LOGIN_PATH);
   }
 
-  return redirect(ADMIN_DASHBOARD);
+  return redirect(ADMIN_DASHBOARD_PATH);
 }
