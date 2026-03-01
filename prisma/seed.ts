@@ -2,7 +2,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 async function main() {
-  const { user } = await auth.api.createUser({
+  await auth.api.createUser({
     body: {
       email: "admin@gmail.com",
       password: "password",
@@ -17,15 +17,6 @@ async function main() {
       password: "password",
       name: "user",
       role: "user",
-    },
-  });
-
-  await auth.api.createOrganization({
-    body: {
-      name: "KS",
-      slug: "ks-org",
-      userId: user.id,
-      keepCurrentActiveOrganization: true,
     },
   });
 }

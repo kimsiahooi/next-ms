@@ -3,7 +3,6 @@
 import { Building2, GalleryVerticalEnd, Gauge } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
 import { NavMain } from "@/components/base/sidebars/nav-main";
 import { NavUser } from "@/components/base/sidebars/nav-user";
 import {
@@ -24,7 +23,7 @@ import {
 import { useSession } from "@/lib/auth-client";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { data: session, refetch } = useSession();
+  const { data: session } = useSession();
   const pathname = usePathname();
 
   const data = {
@@ -43,10 +42,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       },
     ],
   };
-
-  useEffect(() => {
-    refetch();
-  }, [refetch]);
 
   return (
     <Sidebar collapsible="icon" {...props}>

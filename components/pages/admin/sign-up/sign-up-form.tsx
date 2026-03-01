@@ -1,44 +1,20 @@
 "use client";
 
-import Form from "next/form";
 import Link from "next/link";
-import { useEffect } from "react";
-import { toast } from "sonner";
-import { loginAction } from "@/actions/admin-auth.actions";
 import { Button } from "@/components/ui/button";
 import {
   Field,
   FieldDescription,
-  FieldError,
   FieldGroup,
   FieldLabel,
   FieldSeparator,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Spinner } from "@/components/ui/spinner";
 import { ADMIN_SIGNUP_PATH } from "@/constants/admin/path.constants";
-import { useActionState } from "@/hooks/use-action-state";
-import type { loginSchema } from "@/schemas/auth.schemas";
 
 export default function AdminSignUpForm() {
-  const [formState, formAction, pending] = useActionState<typeof loginSchema>(
-    loginAction,
-    {
-      values: {
-        email: "",
-        password: "",
-      },
-    },
-  );
-
-  useEffect(() => {
-    if (formState.message) {
-      toast.error(formState.message);
-    }
-  }, [formState]);
-
   return (
-    <Form action={formAction} className="flex flex-col gap-6">
+    <form className="flex flex-col gap-6">
       <FieldGroup>
         <div className="flex flex-col items-center gap-1 text-center">
           <h1 className="text-2xl font-bold">Login to your account</h1>
@@ -46,40 +22,23 @@ export default function AdminSignUpForm() {
             Enter your email below to login to your account
           </p>
         </div>
-        <Field data-invalid={!!formState.errors?.email?.length}>
+        <Field>
           <FieldLabel htmlFor="email">Email</FieldLabel>
           <Input
             id="email"
             name="email"
-            defaultValue={formState.values?.email}
-            aria-invalid={!!formState.errors?.email?.length}
             type="email"
             placeholder="m@example.com"
           />
-          {formState.errors?.email && (
-            <FieldError>{formState.errors.email[0]}</FieldError>
-          )}
         </Field>
-        <Field data-invalid={!!formState.errors?.password?.length}>
+        <Field>
           <div className="flex items-center">
             <FieldLabel htmlFor="password">Password</FieldLabel>
           </div>
-          <Input
-            id="password"
-            name="password"
-            defaultValue={formState.values?.password}
-            aria-invalid={!!formState.errors?.password?.length}
-            type="password"
-          />
-          {formState.errors?.password && (
-            <FieldError>{formState.errors.password[0]}</FieldError>
-          )}
+          <Input id="password" name="password" type="password" />
         </Field>
         <Field>
-          <Button type="submit" disabled={pending}>
-            {pending && <Spinner />}
-            Login
-          </Button>
+          <Button type="submit">Login</Button>
         </Field>
         <FieldSeparator>Or continue with</FieldSeparator>
         <Field>
@@ -103,6 +62,6 @@ export default function AdminSignUpForm() {
           </FieldDescription>
         </Field>
       </FieldGroup>
-    </Form>
+    </form>
   );
 }

@@ -1,7 +1,8 @@
 import { ChevronsUpDown, LogOut } from "lucide-react";
-import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
-import { logoutAction } from "@/actions/admin-auth.actions";
+import { logout } from "@/api-services/client/auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -17,7 +18,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { useActionState } from "@/hooks/use-action-state";
+import { ADMIN_LOGIN_PATH } from "@/constants/admin/path.constants";
 import type { useSession } from "@/lib/auth-client";
 
 export function NavUser({
@@ -25,17 +26,27 @@ export function NavUser({
 }: {
   session: ReturnType<typeof useSession>["data"];
 }) {
+  const router = useRouter();
   const { isMobile } = useSidebar();
-
-  const [formState, formAction, pending] = useActionState(logoutAction, {});
-
-  useEffect(() => {
-    if (formState.message) {
-      toast.error(formState.message);
-    }
-  }, [formState]);
+  const [submitting, setSubmitting] = useState(false);
 
   if (!session?.user) return null;
+
+  const submit = async () => {
+    setSubmitting(true);
+
+    const response = await logout();
+
+    setSubmitting(false);
+
+    if (!response.success) {
+      toast.error(response.message);
+      return;
+    }
+
+    router.push(ADMIN_LOGIN_PATH);
+    toast.success(response.message);
+  };
 
   return (
     <SidebarMenu>
@@ -88,14 +99,16 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <form action={formAction}>
-              <DropdownMenuItem asChild>
-                <button type="submit" className="w-full" disabled={pending}>
-                  <LogOut />
-                  Log out
-                </button>
-              </DropdownMenuItem>
-            </form>
+            <DropdownMenuItem asChild>
+              <button
+                type="button"
+                className="w-full"
+                disabled={submitting}
+                onClick={submit}>
+                <LogOut />
+                Log out
+              </button>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

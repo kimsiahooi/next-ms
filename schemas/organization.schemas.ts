@@ -8,6 +8,9 @@ export const createOrganizationSchema = z.object({
     .trim()
     .min(1)
     .max(191)
+    .refine((slug) => slug.toLowerCase() !== "admin", {
+      error: "This slug cannot be use",
+    })
     .refine((slug) => !slug.includes(" "), {
       error: "String cannot contain any whitespace",
     })
