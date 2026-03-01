@@ -1,10 +1,9 @@
-import { APIError } from "better-auth";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
 import { ADMIN_ORGANIZATIONS_PATH } from "@/constants/admin/path.constants";
 import { auth } from "@/lib/auth";
+import { handleError } from "@/lib/error";
 import {
   createOrganizationSchema,
   deleteOrganizationSchema,
@@ -24,22 +23,7 @@ export async function GET() {
       message: "Organizations retrieved successfully",
     });
   } catch (error) {
-    if (error instanceof APIError) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: error.message || "Authentication failed",
-        },
-        { status: error.statusCode },
-      );
-    }
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Organization failed retrieve",
-      },
-      { status: 500 },
-    );
+    return handleError(error);
   }
 }
 
@@ -64,33 +48,7 @@ export async function POST(request: NextRequest) {
       message: "Organization created successfully",
     });
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Validation error",
-          errors: z.flattenError(error),
-        },
-        { status: 422 },
-      );
-    }
-
-    if (error instanceof APIError) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: error.message || "Authentication failed",
-        },
-        { status: error.statusCode },
-      );
-    }
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Organization failed create",
-      },
-      { status: 500 },
-    );
+    return handleError(error);
   }
 }
 
@@ -115,32 +73,6 @@ export async function DELETE(request: NextRequest) {
       message: "Organization deleted successfully",
     });
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Validation error",
-          errors: z.flattenError(error),
-        },
-        { status: 422 },
-      );
-    }
-
-    if (error instanceof APIError) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: error.message || "Authentication failed",
-        },
-        { status: error.statusCode },
-      );
-    }
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Organization failed delete",
-      },
-      { status: 500 },
-    );
+    return handleError(error);
   }
 }

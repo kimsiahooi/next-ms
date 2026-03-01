@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { ZodError, z } from "zod";
 import { auth } from "@/lib/auth";
+import { handleError } from "@/lib/error";
 import { loginSchema } from "@/schemas/auth.schemas";
 
 export async function POST(request: NextRequest) {
@@ -21,23 +21,6 @@ export async function POST(request: NextRequest) {
       message: "User login successfully",
     });
   } catch (error) {
-    if (error instanceof ZodError) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Validation error",
-          errors: z.flattenError(error),
-        },
-        { status: 422 },
-      );
-    }
-
-    return NextResponse.json(
-      {
-        success: false,
-        message: "User failed login",
-      },
-      { status: 500 },
-    );
+    return handleError(error);
   }
 }

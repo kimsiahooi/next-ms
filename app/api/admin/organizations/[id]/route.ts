@@ -1,7 +1,7 @@
-import { APIError } from "better-auth";
 import { headers } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
+import { handleError } from "@/lib/error";
 
 export async function DELETE(
   _: NextRequest,
@@ -20,21 +20,6 @@ export async function DELETE(
       message: "Organizations deleted successfully",
     });
   } catch (error) {
-    if (error instanceof APIError) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: error.message || "Authentication failed",
-        },
-        { status: error.statusCode },
-      );
-    }
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Organization failed delete",
-      },
-      { status: 500 },
-    );
+    return handleError(error);
   }
 }
