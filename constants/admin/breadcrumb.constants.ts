@@ -1,8 +1,9 @@
-import type { Breadcrumb as BreadcrumbProps } from "@/types/breadcrumb.types";
 import {
   ADMIN_DASHBOARD_PATH,
   ADMIN_ORGANIZATIONS_PATH,
-} from "./path.constants";
+  ADMIN_USERS_PATH,
+} from "@/constants/admin/path.constants";
+import type { Breadcrumb as BreadcrumbProps } from "@/types/breadcrumb.types";
 
 export const DASHBOARD_BREADCRUMBS: BreadcrumbProps[] = [
   {
@@ -19,5 +20,16 @@ export const ORGANIZATION_BREADCRUMBS: BreadcrumbProps[] = [
   {
     name: "Organizations",
     url: ADMIN_ORGANIZATIONS_PATH,
+  },
+];
+
+export const USERS_BREADCRUMBS: BreadcrumbProps[] = [
+  {
+    name: "Dashboard",
+    url: ADMIN_DASHBOARD_PATH,
+  },
+  {
+    name: "Users",
+    url: ADMIN_USERS_PATH,
   },
 ];

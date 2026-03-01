@@ -1,7 +1,6 @@
 import { z } from "zod";
-import { auth } from "@/lib/auth";
 
-export const createOrganizationSchema = z.object({
+export const createOrganizationSchema = z.strictObject({
   name: z.string().min(1),
   slug: z
     .string()
@@ -12,25 +11,11 @@ export const createOrganizationSchema = z.object({
       error: "This slug cannot be use",
     })
     .refine((slug) => !slug.includes(" "), {
-      error: "String cannot contain any whitespace",
-    })
-    .refine(
-      async (slug) => {
-        try {
-          const { status } = await auth.api.checkOrganizationSlug({
-            body: { slug },
-          });
-
-          return status;
-        } catch {
-          return false;
-        }
-      },
-      { error: "Slug has been taken" },
-    ),
+      error: "Slug cannot contain any whitespace",
+    }),
 });
 
-export const deleteOrganizationSchema = z.object({
+export const deleteOrganizationSchema = z.strictObject({
   id: z.string(),
   name: z.string(),
   slug: z.string(),

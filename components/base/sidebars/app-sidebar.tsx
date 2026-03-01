@@ -1,6 +1,6 @@
 "use client";
 
-import { Building2, GalleryVerticalEnd, Gauge } from "lucide-react";
+import { Building2, GalleryVerticalEnd, Gauge, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NavMain } from "@/components/base/sidebars/nav-main";
@@ -19,6 +19,7 @@ import { APP_NAME } from "@/constants";
 import {
   ADMIN_DASHBOARD_PATH,
   ADMIN_ORGANIZATIONS_PATH,
+  ADMIN_USERS_PATH,
 } from "@/constants/admin/path.constants";
 import { useSession } from "@/lib/auth-client";
 
@@ -39,6 +40,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         url: ADMIN_ORGANIZATIONS_PATH,
         icon: Building2,
         isActive: pathname === ADMIN_ORGANIZATIONS_PATH,
+      },
+      {
+        title: "Users",
+        url: ADMIN_USERS_PATH,
+        icon: Users,
+        isActive: pathname === ADMIN_USERS_PATH,
       },
     ],
   };

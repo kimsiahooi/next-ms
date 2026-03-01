@@ -16,7 +16,6 @@ async function main() {
       email: "user@gmail.com",
       password: "password",
       name: "user",
-      role: "user",
     },
   });
 }
