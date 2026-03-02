@@ -1,6 +1,7 @@
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
+import { LARAVEL_ASSET_UPLOADER_APP_URL } from "@/constants";
 import { ADMIN_ORGANIZATIONS_PATH } from "@/constants/admin/path.constants";
 import { auth } from "@/lib/auth";
 import { handleError } from "@/lib/error";
@@ -25,10 +26,49 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  const payload = await request.json();
+  const formData = await request.formData();
+  const name = formData.get("name");
+  const slug = formData.get("slug");
+  const logo = formData.get("logo");
 
   try {
-    const body = createOrganizationSchema.parse(payload);
+    const validated = createOrganizationSchema.parse({ name, slug, logo });
+
+    const body = { ...validated, logo: undefined };
+
+    if (validated.logo) {
+      const session = await auth.api.getSession({
+        headers: await headers(),
+      });
+
+      const assetFormData = new FormData();
+      assetFormData.append("file", validated.logo);
+      assetFormData.append("folder_name", "organizations");
+      if (session?.user.id) {
+        assetFormData.append("user_id", session.user.id);
+      }
+
+      const response = await fetch(
+        `${LARAVEL_ASSET_UPLOADER_APP_URL}/api/assets`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+          },
+          body: assetFormData,
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to upload logo");
+      }
+
+      const image = await response.json();
+
+      if (image?.asset?.url) {
+        body.logo = image.asset.url;
+      }
+    }
 
     const organization = await auth.api.createOrganization({
       headers: await headers(),

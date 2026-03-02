@@ -1,17 +1,9 @@
 import { getOrganizations } from "@/api-services/server/organizations";
+import DataTable from "@/components/base/data-tables/data-table";
 import AdminLayout from "@/components/layouts/admin-layout";
 import CreateOrganizationForm from "@/components/pages/admin/organizations/create-organization-form";
-import DeleteOrganizationForm from "@/components/pages/admin/organizations/delete-organization-form";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { ORGANIZATION_BREADCRUMBS } from "@/constants/admin/breadcrumb.constants";
+import { columns } from "./columns";
 
 export default async function AdminOrganizationPage() {
   const data = await getOrganizations();
@@ -27,33 +19,7 @@ export default async function AdminOrganizationPage() {
       <div className="flex items-center justify-end flex-wrap">
         <CreateOrganizationForm />
       </div>
-      <div>
-        <Table>
-          <TableCaption>A list of your recent organizations.</TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Slug</TableHead>
-              <TableHead>Created At</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {organizations.map((organization) => (
-              <TableRow key={organization.id}>
-                <TableCell>{organization.name}</TableCell>
-                <TableCell>{organization.slug}</TableCell>
-                <TableCell>
-                  {new Date(organization.createdAt).toLocaleString()}
-                </TableCell>
-                <TableCell>
-                  <DeleteOrganizationForm organization={organization} />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+      <DataTable data={organizations} columns={columns} />
     </AdminLayout>
   );
 }

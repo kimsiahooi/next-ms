@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const createOrganizationSchema = z.strictObject({
+export const createOrganizationSchema = z.object({
   name: z.string().min(1),
   slug: z
     .string()
@@ -13,6 +13,11 @@ export const createOrganizationSchema = z.strictObject({
     .refine((slug) => !slug.includes(" "), {
       error: "Slug cannot contain any whitespace",
     }),
+  logo: z
+    .file()
+    .max(10 * 1024 * 1024)
+    .mime(["image/gif", "image/webp"])
+    .nullable(),
 });
 
 export const deleteOrganizationSchema = z.strictObject({

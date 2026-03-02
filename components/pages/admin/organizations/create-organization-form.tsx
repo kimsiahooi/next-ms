@@ -29,6 +29,7 @@ export default function CreateOrganizationForm() {
   const [submitting, setSubmitting] = useState(false);
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
+  const [logo, setLogo] = useState<File>();
   const [errors, setErrors] = useState<ApiZodErrors>();
 
   const submit = async (e: FormEvent<HTMLFormElement>) => {
@@ -36,7 +37,7 @@ export default function CreateOrganizationForm() {
     setSubmitting(true);
     setErrors(undefined);
 
-    const response = await createOrganization({ name, slug });
+    const response = await createOrganization({ name, slug, logo });
 
     setSubmitting(false);
 

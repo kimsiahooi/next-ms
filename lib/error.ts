@@ -27,7 +27,7 @@ export const handleError = (error: unknown) => {
   return NextResponse.json(
     {
       success: false,
-      message: "Server Error",
+      message: error instanceof Error ? error.message : "Server Error",
     },
     { status: 500 },
   );

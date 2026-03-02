@@ -6,10 +6,20 @@ import type { ApiResponse } from "@/types/api.types";
 export const createOrganization = async (payload: {
   name: string;
   slug: string;
+  logo?: File;
 }) => {
+  const body = new FormData();
+
+  body.append("name", payload.name);
+  body.append("slug", payload.slug);
+
+  if (payload.logo) {
+    body.append("logo", payload.logo);
+  }
+
   const response = await fetch(`/api/admin/organizations`, {
     method: "POST",
-    body: JSON.stringify(payload),
+    body,
   });
 
   return (await response.json()) as ApiResponse<{
