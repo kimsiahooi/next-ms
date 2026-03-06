@@ -2,7 +2,7 @@
 
 import type { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
-import DeleteOrganizationForm from "@/components/pages/admin/organizations/delete-organization-form";
+import OrganizationAction from "@/components/pages/admin/organizations/organization-action";
 import type { auth } from "@/lib/auth";
 
 type Organization = Awaited<
@@ -32,6 +32,7 @@ export const columns: ColumnDef<Organization>[] = [
             fill
             className="object-cover"
             unoptimized
+            loading="eager"
           />
         </div>
       ),
@@ -47,7 +48,7 @@ export const columns: ColumnDef<Organization>[] = [
     cell: ({ row }) => {
       const organization = row.original;
 
-      return <DeleteOrganizationForm organization={organization} />;
+      return <OrganizationAction organization={organization} />;
     },
   },
 ];

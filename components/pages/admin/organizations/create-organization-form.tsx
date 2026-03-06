@@ -101,6 +101,22 @@ export default function CreateOrganizationForm() {
                 <FieldError>{errors.fieldErrors.slug[0]}</FieldError>
               )}
             </Field>
+            <Field data-invalid={!!errors?.fieldErrors.logo?.length}>
+              <div className="flex items-center">
+                <FieldLabel htmlFor="logo">Logo</FieldLabel>
+              </div>
+              <Input
+                id="logo"
+                name="logo"
+                onChange={(e) => setLogo(e.target.files?.[0])}
+                aria-invalid={!!errors?.fieldErrors.logo?.length}
+                type="file"
+                accept="image/webp,image/gif"
+              />
+              {errors?.fieldErrors.logo && (
+                <FieldError>{errors.fieldErrors.logo[0]}</FieldError>
+              )}
+            </Field>
             <Field>
               <Button type="submit" disabled={submitting}>
                 {submitting && <Spinner />}

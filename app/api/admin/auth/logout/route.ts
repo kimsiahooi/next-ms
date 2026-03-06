@@ -9,7 +9,7 @@ export async function POST() {
     });
 
     if (!success) {
-      throw new Error("User failed logout");
+      throw new Error("Failed to logout user");
     }
 
     return NextResponse.json({
@@ -20,7 +20,7 @@ export async function POST() {
     return NextResponse.json(
       {
         success: false,
-        message: "User failed logout",
+        message: "Failed to logout user",
       },
       { status: 500 },
     );

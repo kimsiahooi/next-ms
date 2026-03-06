@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
       );
 
       if (!response.ok) {
-        throw new Error("Failed to upload logo");
+        throw new Error(await response.text());
       }
 
       const image = await response.json();
