@@ -20,7 +20,7 @@ export const createOrganizationSchema = z.object({
     .nullable(),
 });
 
-export const deleteOrganizationSchema = z.strictObject({
+export const deleteOrganizationSchema = z.object({
   id: z.string(),
   name: z.string(),
   slug: z.string(),

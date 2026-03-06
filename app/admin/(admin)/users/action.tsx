@@ -4,7 +4,7 @@ import { MoreHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
-import { deleteOrganization } from "@/api-services/client/organizations";
+import { deleteUser } from "@/api-services/client/users";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -25,11 +25,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Spinner } from "@/components/ui/spinner";
 
-export default function OrganizationAction({
-  organization: { id },
-}: {
-  organization: { id: string; name: string; slug: string };
-}) {
+export default function UserAction({ user: { id } }: { user: { id: string } }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -37,11 +33,12 @@ export default function OrganizationAction({
   const submit = async () => {
     setSubmitting(true);
 
-    const response = await deleteOrganization({ id });
+    const response = await deleteUser({ id });
 
     setSubmitting(false);
 
     if (!response.success) {
+      console.error(response.message);
       toast.error(response.message);
       return;
     }
@@ -70,7 +67,7 @@ export default function OrganizationAction({
 
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete Organization</AlertDialogTitle>
+          <AlertDialogTitle>Delete User</AlertDialogTitle>
           <AlertDialogDescription>
             Are you sure you want to delete?
           </AlertDialogDescription>

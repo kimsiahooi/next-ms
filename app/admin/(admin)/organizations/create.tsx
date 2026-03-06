@@ -45,6 +45,7 @@ export default function CreateOrganizationForm() {
       if (response.errors) {
         setErrors(response.errors);
       } else {
+        console.error(response.message);
         toast.error(response.message);
       }
       return;

@@ -23,7 +23,7 @@ export const createOrganization = async (payload: {
   });
 
   return (await response.json()) as ApiResponse<{
-    organizations: Awaited<ReturnType<typeof auth.api.createOrganization>>;
+    organization: Awaited<ReturnType<typeof auth.api.createOrganization>>;
   }>;
 };
 

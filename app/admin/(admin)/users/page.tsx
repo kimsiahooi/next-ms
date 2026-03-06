@@ -1,15 +1,9 @@
 import { getUsers } from "@/api-services/server/users";
+import DataTable from "@/components/base/data-tables/data-table";
 import AdminLayout from "@/components/layouts/admin-layout";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { USERS_BREADCRUMBS } from "@/constants/admin/breadcrumb.constants";
+import { columns } from "./columns";
+import CreateForm from "./create";
 
 export default async function AdminUserPage() {
   const data = await getUsers();
@@ -22,33 +16,10 @@ export default async function AdminUserPage() {
 
   return (
     <AdminLayout breadcrumbs={USERS_BREADCRUMBS}>
-      <div>
-        <Table>
-          <TableCaption>A list of your recent users.</TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead>Created At</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {users.map((user) => (
-              <TableRow key={user.id}>
-                <TableCell>{user.name}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>{user.role}</TableCell>
-                <TableCell>
-                  {new Date(user.createdAt).toLocaleString()}
-                </TableCell>
-                <TableCell></TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+      <div className="flex items-center justify-end flex-wrap">
+        <CreateForm />
       </div>
+      <DataTable data={users} columns={columns} />
     </AdminLayout>
   );
 }

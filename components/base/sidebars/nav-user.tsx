@@ -40,6 +40,7 @@ export function NavUser({
     setSubmitting(false);
 
     if (!response.success) {
+      console.error(response.message);
       toast.error(response.message);
       return;
     }

@@ -2,8 +2,8 @@
 
 import type { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
-import OrganizationAction from "@/components/pages/admin/organizations/organization-action";
 import type { auth } from "@/lib/auth";
+import OrganizationAction from "./action";
 
 type Organization = Awaited<
   ReturnType<typeof auth.api.listOrganizations>

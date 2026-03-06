@@ -1,9 +1,9 @@
 import { getOrganizations } from "@/api-services/server/organizations";
 import DataTable from "@/components/base/data-tables/data-table";
 import AdminLayout from "@/components/layouts/admin-layout";
-import CreateOrganizationForm from "@/components/pages/admin/organizations/create-organization-form";
 import { ORGANIZATION_BREADCRUMBS } from "@/constants/admin/breadcrumb.constants";
 import { columns } from "./columns";
+import CreateForm from "./create";
 
 export default async function AdminOrganizationPage() {
   const data = await getOrganizations();
@@ -17,7 +17,7 @@ export default async function AdminOrganizationPage() {
   return (
     <AdminLayout breadcrumbs={ORGANIZATION_BREADCRUMBS}>
       <div className="flex items-center justify-end flex-wrap">
-        <CreateOrganizationForm />
+        <CreateForm />
       </div>
       <DataTable data={organizations} columns={columns} />
     </AdminLayout>
