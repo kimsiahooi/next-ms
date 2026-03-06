@@ -30,7 +30,7 @@ export default function UserAction({ user: { id } }: { user: { id: string } }) {
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  const submit = async () => {
+  const deleteAction = async () => {
     setSubmitting(true);
 
     const response = await deleteUser({ id });
@@ -78,7 +78,7 @@ export default function UserAction({ user: { id } }: { user: { id: string } }) {
             type="button"
             disabled={submitting}
             variant="destructive"
-            onClick={submit}>
+            onClick={deleteAction}>
             {submitting && <Spinner />}
             Delete
           </Button>

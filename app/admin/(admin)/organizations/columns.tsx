@@ -2,14 +2,10 @@
 
 import type { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
-import type { auth } from "@/lib/auth";
+import type { Organizations } from "@/types/organization.types";
 import OrganizationAction from "./action";
 
-type Organization = Awaited<
-  ReturnType<typeof auth.api.listOrganizations>
->[number];
-
-export const columns: ColumnDef<Organization>[] = [
+export const columns: ColumnDef<Organizations[number]>[] = [
   {
     header: "Name",
     accessorKey: "name",

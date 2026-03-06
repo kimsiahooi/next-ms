@@ -33,19 +33,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         title: "Dashboard",
         url: ADMIN_DASHBOARD_PATH,
         icon: Gauge,
-        isActive: pathname === ADMIN_DASHBOARD_PATH,
+        isActive: pathname.startsWith(ADMIN_DASHBOARD_PATH),
       },
       {
         title: "Organizations",
         url: ADMIN_ORGANIZATIONS_PATH,
         icon: Building2,
-        isActive: pathname === ADMIN_ORGANIZATIONS_PATH,
+        isActive: pathname.startsWith(ADMIN_ORGANIZATIONS_PATH),
       },
       {
         title: "Users",
         url: ADMIN_USERS_PATH,
         icon: Users,
-        isActive: pathname === ADMIN_USERS_PATH,
+        isActive: pathname.startsWith(ADMIN_USERS_PATH),
       },
     ],
   };

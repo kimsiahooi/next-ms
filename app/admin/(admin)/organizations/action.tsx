@@ -1,6 +1,7 @@
 "use client";
 
 import { MoreHorizontal } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -24,20 +25,22 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Spinner } from "@/components/ui/spinner";
+import { ADMIN_ORGANIZATION_MEMBERS_PATH } from "@/constants/admin/path.constants";
+import type { Organizations } from "@/types/organization.types";
 
 export default function OrganizationAction({
-  organization: { id },
+  organization,
 }: {
-  organization: { id: string; name: string; slug: string };
+  organization: Organizations[number];
 }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  const submit = async () => {
+  const deleteAction = async () => {
     setSubmitting(true);
 
-    const response = await deleteOrganization({ id });
+    const response = await deleteOrganization({ id: organization.id });
 
     setSubmitting(false);
 
@@ -63,6 +66,11 @@ export default function OrganizationAction({
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuItem asChild>
+            <Link href={ADMIN_ORGANIZATION_MEMBERS_PATH(organization)}>
+              View Members
+            </Link>
+          </DropdownMenuItem>
           <AlertDialogTrigger asChild>
             <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
           </AlertDialogTrigger>
@@ -82,7 +90,7 @@ export default function OrganizationAction({
             type="button"
             disabled={submitting}
             variant="destructive"
-            onClick={submit}>
+            onClick={deleteAction}>
             {submitting && <Spinner />}
             Delete
           </Button>
