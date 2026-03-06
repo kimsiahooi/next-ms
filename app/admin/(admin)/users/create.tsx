@@ -30,6 +30,7 @@ export default function CreateUserForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [image, setImage] = useState<File>();
   const [errors, setErrors] = useState<ApiZodErrors>();
 
   const submit = async (e: FormEvent<HTMLFormElement>) => {
@@ -37,7 +38,7 @@ export default function CreateUserForm() {
     setSubmitting(true);
     setErrors(undefined);
 
-    const response = await createUser({ name, email, password });
+    const response = await createUser({ name, email, password, image });
 
     setSubmitting(false);
 
@@ -54,6 +55,7 @@ export default function CreateUserForm() {
     setName("");
     setEmail("");
     setPassword("");
+    setImage(undefined);
     setOpen(false);
     router.refresh();
     toast.success(response.message);
@@ -118,6 +120,22 @@ export default function CreateUserForm() {
               />
               {errors?.fieldErrors.password && (
                 <FieldError>{errors.fieldErrors.password[0]}</FieldError>
+              )}
+            </Field>
+            <Field data-invalid={!!errors?.fieldErrors.image?.length}>
+              <div className="flex items-center">
+                <FieldLabel htmlFor="image">Image</FieldLabel>
+              </div>
+              <Input
+                id="image"
+                name="image"
+                onChange={(e) => setImage(e.target.files?.[0])}
+                aria-invalid={!!errors?.fieldErrors.image?.length}
+                type="file"
+                accept="image/webp,image/gif"
+              />
+              {errors?.fieldErrors.image && (
+                <FieldError>{errors.fieldErrors.image[0]}</FieldError>
               )}
             </Field>
             <Field>

@@ -53,6 +53,7 @@ export default function CreateOrganizationForm() {
 
     setName("");
     setSlug("");
+    setLogo(undefined);
     setOpen(false);
     router.refresh();
     toast.success(response.message);

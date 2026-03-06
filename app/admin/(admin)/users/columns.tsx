@@ -1,6 +1,7 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
+import Image from "next/image";
 import type { auth } from "@/lib/auth";
 import UserAction from "./action";
 
@@ -16,6 +17,28 @@ export const columns: ColumnDef<User>[] = [
     header: "Email",
     accessorKey: "email",
     cell: ({ row }) => row.getValue("email"),
+  },
+  {
+    header: "Image",
+    accessorKey: "image",
+    cell: ({ row }) => {
+      const { image, name } = row.original;
+
+      return (
+        image && (
+          <div className="relative size-14">
+            <Image
+              src={image}
+              alt={name}
+              fill
+              className="object-cover"
+              unoptimized
+              loading="eager"
+            />
+          </div>
+        )
+      );
+    },
   },
   {
     header: "Role",

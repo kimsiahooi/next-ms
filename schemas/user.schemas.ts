@@ -7,4 +7,9 @@ export const createUserSchema = z.object({
   password: z.string().min(8),
   name: z.string().min(1),
   role: userRoleSchema.optional(),
+  image: z
+    .file()
+    .max(10 * 1024 * 1024)
+    .mime(["image/gif", "image/webp"])
+    .nullable(),
 });

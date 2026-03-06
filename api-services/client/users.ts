@@ -7,8 +7,17 @@ export const createUser = async (payload: {
   email: string;
   password: string;
   name: string;
+  image?: File;
 }) => {
-  const body = JSON.stringify(payload);
+  const body = new FormData();
+
+  body.append("email", payload.email);
+  body.append("password", payload.password);
+  body.append("name", payload.name);
+
+  if (payload.image) {
+    body.append("image", payload.image);
+  }
 
   const response = await fetch(`/api/admin/users`, {
     method: "POST",
